@@ -1,5 +1,5 @@
 import streamlit as st
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 
 # Show title and description.
 st.title("📄 Document question answering")
@@ -9,15 +9,20 @@ st.write(
 )
 
 # Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
+# Validate the key as soon as it is entered.
 openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+if openai_api_key:
+    try:
+        # Create an OpenAI client
+        client = OpenAI(api_key=openai_api_key)
+        client.models.list()
+        st.success("API key is valid! You can proceed.", icon="✅")
+    except OpenAIError as e:
+        st.error("Invalid API key. Please check and try again.", icon="❌")
+        st.stop()
+
+if openai_api_key:
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
@@ -32,7 +37,6 @@ else:
     )
 
     if uploaded_file and question:
-
         # Process the uploaded file and question.
         document = uploaded_file.read().decode()
         messages = [
@@ -42,12 +46,12 @@ else:
             }
         ]
 
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+        # Generate an answer using the OpenAI API with the new model.
+        stream = client.ChatCompletion.create(
+            model="gpt-4o-mini",
             messages=messages,
             stream=True,
         )
 
-        # Stream the response to the app using `st.write_stream`.
+        # Stream the response to the app using `st.write`.
         st.write_stream(stream)
