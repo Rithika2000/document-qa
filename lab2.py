@@ -7,9 +7,6 @@ st.write(
     "Upload a document below, and select a summary option – GPT will summarize it! "
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
 )
-
-openai_api_key = st.secrets["OpenAI_key"]
-
 # Sidebar options for summary type
 summary_type = st.sidebar.radio(
     "Choose a summary option:",
