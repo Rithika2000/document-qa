@@ -50,7 +50,7 @@ if uploaded_file:
 
     # Generate an answer using the OpenAI API
     try:
-        client = OpenAI(api_key=st.secrets["openai_key"])
+        client = OpenAI(api_key=st.secrets["OpenAI_key"])
         stream = client.chat.completions.create(
             model=model,
             messages=messages,
