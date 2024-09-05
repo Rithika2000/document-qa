@@ -8,6 +8,8 @@ st.write(
     "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
 )
 
+openai_api_key = st.secrets["OpenAI_key"]
+
 # Sidebar options for summary type
 summary_type = st.sidebar.radio(
     "Choose a summary option:",
