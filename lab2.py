@@ -9,7 +9,7 @@ st.write(
 )
 
 # Fetch the OpenAI API key from secrets
-openai_api_key = st.secrets["OpenAI_key"]
+#openai_api_key = st.secrets["OpenAI_key"]
 
 # Sidebar options for summary type
 summary_type = st.sidebar.radio(
