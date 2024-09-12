@@ -1,8 +1,9 @@
 import streamlit as st
 
-create_page = st.Page("lab1.py",title="First page")
-delete_page = st.Page("lab2.py",title="Second page")
+Lab1 = st.Page("lab1.py",title="First page")
+Lab2 = st.Page("lab2.py",title="Second page")
+Lab3 = st.Page("lab3.py",title="Third page")
 
-pg = st.navigation([create_page,delete_page])
-st.set_page_config(page_title="Lab2")
+pg = st.navigation([Lab1,Lab2,Lab3])
+st.set_page_config(page_title="Lab3")
 pg.run()
