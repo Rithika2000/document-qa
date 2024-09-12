@@ -6,7 +6,6 @@ st.title("My Lab3 Question Answering Chatbot")
 # Sidebar for model selection and buffer size
 openAI_model = st.sidebar.selectbox("Which Model?", ("mini", "regular"))
 buffer_size = st.sidebar.slider("Buffer Size", min_value=1, max_value=10, value=2, step=1)
-
 # Select the model to use based on the selection
 if openAI_model == "mini":
     model_to_use = "gpt-4o-mini"
