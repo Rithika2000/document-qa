@@ -3,5 +3,5 @@ openai
 pymupdf
 PyPDF2
 chromadb
-pysqlite-binary
+pysqlite3-binary
 protobuf==3.20
