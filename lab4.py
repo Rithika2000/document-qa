@@ -76,7 +76,7 @@ def query_collection_and_chat(collection, user_input):
     relevant_texts = [result for result in results['documents'][0]]
     return relevant_texts
 
-# Streamlit chat interface
+# Streamlit chat interface using chat_message for a better conversation view
 st.title("Course Information Chatbot")
 
 if 'messages' not in st.session_state:
@@ -84,10 +84,10 @@ if 'messages' not in st.session_state:
 
 create_chromadb_collection()
 
-# Add a character limit for user input
-user_input = st.text_input("Ask a question about the course:", max_chars=200)
+# Chat input box
+user_input = st.text_input("Ask a question about the course:", key="input")
 
-if st.button("Send"):
+if st.button("Send", key="send"):
     if user_input:
         relevant_texts = query_collection_and_chat(st.session_state.Lab4_vectorDB, user_input)
 
@@ -106,11 +106,15 @@ if st.button("Send"):
         )
         answer = response.choices[0].message.content
 
-        # Store the conversation in session state
-        st.session_state.messages.append({"user": user_input, "bot": answer})
+        # Append user and bot messages to the session state
+        st.session_state.messages.append({"role": "user", "content": user_input})
+        st.session_state.messages.append({"role": "bot", "content": answer})
 
-# Display chat history
-if st.session_state.messages:
-    for message in st.session_state.messages:
-        st.write(f"You: {message['user']}")
-        st.write(f"Bot: {message['bot']}")
+# Display chat history using the chat_message format
+for message in st.session_state.messages:
+    if message["role"] == "user":
+        with st.chat_message("user"):
+            st.markdown(message["content"])
+    else:
+        with st.chat_message("assistant"):
+            st.markdown(message["content"])
