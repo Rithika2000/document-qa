@@ -16,7 +16,9 @@ if 'openai_client' not in st.session_state:
     st.session_state.openai_client = openai
 
 # Initialize the ChromaDB client
-client = chromadb.PersistentClient(path="/workspaces/document-qa/data")
+# Change the path to a relative path
+data_folder = "data"  # Assuming the 'data' directory is in your project root
+client = chromadb.PersistentClient(path=data_folder)
 
 # Function to create ChromaDB collection and store in session state
 def create_chromadb_collection():
@@ -50,7 +52,7 @@ def create_chromadb_collection():
                 metadatas=[{'filename': filename}]
             )
 
-        pdf_folder = "/workspaces/document-qa/data"
+        pdf_folder = data_folder  # Use the relative path defined earlier
         for file_name in os.listdir(pdf_folder):
             if file_name.endswith(".pdf"):
                 file_path = os.path.join(pdf_folder, file_name)
